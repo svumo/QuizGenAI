@@ -97,4 +97,105 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error('[Main.js] CRITICAL: Generate button not found on the page!');
     }
+
+    // Add event listeners for navigation and Revision Mode logic
+
+    // Landing Page Navigation
+    const generateQuizButton = document.getElementById('generateQuizButton');
+    const revisionModeButton = document.getElementById('revisionModeButton');
+    const goBackButtonQuiz = document.getElementById('goBackButtonQuiz');
+    const goBackButtonRevision = document.getElementById('goBackButtonRevision');
+    const landingPage = document.getElementById('landingPage');
+    const quizSection = document.getElementById('quizSection');
+    const revisionModeSection = document.getElementById('revisionModeSection');
+
+    if (generateQuizButton) {
+        generateQuizButton.addEventListener('click', () => {
+            landingPage.style.display = 'none';
+            quizSection.style.display = 'block';
+        });
+    }
+
+    if (revisionModeButton) {
+        revisionModeButton.addEventListener('click', () => {
+            landingPage.style.display = 'none';
+            revisionModeSection.style.display = 'block';
+        });
+    }
+
+    if (goBackButtonQuiz) {
+        goBackButtonQuiz.addEventListener('click', () => {
+            quizSection.style.display = 'none';
+            landingPage.style.display = 'block';
+        });
+    }
+
+    if (goBackButtonRevision) {
+        goBackButtonRevision.addEventListener('click', () => {
+            revisionModeSection.style.display = 'none';
+            landingPage.style.display = 'block';
+        });
+    }
+
+    // Revision Mode Logic
+    const generateInfoButton = document.getElementById('generateInfoButton');
+    const expandInfoButton = document.getElementById('expandInfoButton');
+    const topicInput = document.getElementById('topicInput');
+    const infoDisplayArea = document.getElementById('infoDisplayArea');
+    const expandSection = document.getElementById('expandSection');
+    const expandQueryInput = document.getElementById('expandQueryInput');
+
+    if (generateInfoButton) {
+        generateInfoButton.addEventListener('click', async () => {
+            const topic = topicInput.value.trim();
+            if (!topic) {
+                infoDisplayArea.textContent = 'Error: Topic cannot be empty.';
+                return;
+            }
+            infoDisplayArea.value = 'Generating information...';
+            try {
+                const response = await fetch('/api/generate-info', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ topic })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    infoDisplayArea.value = data.informationalText;
+                    expandSection.style.display = 'block';
+                } else {
+                    infoDisplayArea.value = `Error: ${data.error}`;
+                }
+            } catch (error) {
+                infoDisplayArea.value = 'Error: Failed to fetch information.';
+            }
+        });
+    }
+
+    if (expandInfoButton) {
+        expandInfoButton.addEventListener('click', async () => {
+            const expansionQuery = expandQueryInput.value.trim();
+            const currentText = infoDisplayArea.value;
+            if (!expansionQuery) {
+                infoDisplayArea.value += '\n\nError: Expansion query cannot be empty.';
+                return;
+            }
+            infoDisplayArea.value += '\n\nExpanding information...';
+            try {
+                const response = await fetch('/api/generate-info', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ topic: topicInput.value.trim(), currentText, expansionQuery })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    infoDisplayArea.value = data.informationalText;
+                } else {
+                    infoDisplayArea.value += `\nError: ${data.error}`;
+                }
+            } catch (error) {
+                infoDisplayArea.value += '\n\nError: Failed to fetch expanded information.';
+            }
+        });
+    }
 });

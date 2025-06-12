@@ -18,33 +18,50 @@
             margin-bottom: 30px;
         }
 
-        /* Group for text inputs and results area */
-        textarea#sourceText, 
-        input#numQuestions,
+        /* --- UPDATED: Group styles for ALL inputs/textareas for consistency --- */
+        textarea,
+        input[type="text"],
+        input[type="number"],
         pre#resultsArea {
             display: block;
             margin: 10px auto;
-            width: 80%;      
-            max-width: 600px; 
-            padding: 12px;   /* Slightly increased padding */
-            border: 1px solid #ccc; /* Slightly darker border */
+            width: 100%; /* Changed from 80% to 100% to fill the parent container */     
+            padding: 12px;
+            border: 1px solid #ccc;
             border-radius: 5px;  
             box-sizing: border-box; 
             font-size: 1rem;
+            font-family: Arial, sans-serif;
+        }
+        
+        textarea {
+            resize: vertical; /* Allow all textareas to be resizable */
         }
 
+        /* Specific heights for different textareas */
         textarea#sourceText {
             height: 150px;
-            resize: vertical; 
+        }
+
+        /* UPDATED: Increased default height for the main info display */
+        textarea#infoDisplayArea {
+            height: 350px;
+            background-color: #f8f9fa; /* Slightly off-white for readonly display */
+            color: #333;
+        }
+        
+        /* NEW: Specific style for the smaller expansion query textarea */
+        textarea#expandQueryInput {
+            height: 60px; /* Sensible default height (approx 2 rows) */
         }
 
         pre#resultsArea {
             background: #fff;
             overflow-x: auto;
-            min-height: 46px; /* Adjusted for padding */
+            min-height: 46px;
             line-height: 1.5; 
-            white-space: pre-wrap; /* Allow text to wrap */
-            word-wrap: break-word; /* Break long words */
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
 
         button#generateButton {
@@ -70,9 +87,9 @@
             padding: 20px;
             background: white;
             border: 1px solid #ddd;
-            border-radius: 8px; /* Slightly more rounded */
+            border-radius: 8px;
             max-width: 600px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Subtle shadow */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         #quizContainer h2 {
@@ -80,13 +97,12 @@
             color: #333;
         }
 
-        /* Styles for new clickable answer options */
         #optionsContainer {
             margin-top: 20px;
             margin-bottom: 20px;
         }
         #optionsContainer .option-item {
-            margin-bottom: 12px; /* Slightly more space */
+            margin-bottom: 12px;
         }
 
         .sr-only-radio { 
@@ -110,7 +126,7 @@
 
         .option-label:hover {
             background-color: #e9e9e9;
-            border-color: #007BFF; /* Highlight border on hover */
+            border-color: #007BFF;
         }
 
         .sr-only-radio:checked + .option-label {
@@ -146,13 +162,13 @@
             opacity: 0.85;
         }
         #quizContainer button#submitAnswerButton {
-            background-color: #28a745; /* Green */
+            background-color: #28a745;
         }
         #quizContainer button#nextQuestionButton { 
-            background-color: #17a2b8; /* Teal */
+            background-color: #17a2b8;
         }
         #quizContainer button#restartQuizButton {
-            background-color: #6c757d; /* Grey */
+            background-color: #6c757d;
         }
 
         #feedback p {
@@ -160,15 +176,123 @@
             margin-bottom: 10px;
             font-style: italic;
         }
+
+        #landingPage {
+            text-align: center;
+            margin-top: 50px;
+        }
+        #landingPage button {
+            display: inline-block;
+            margin: 15px;
+            padding: 12px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.2s ease-in-out;
+        }
+        #landingPage button:hover {
+            background-color: #0056b3;
+        }
+
+        /* --- STYLES FOR SECTION CONTAINERS --- */
+        #quizSection, #revisionModeSection {
+            display: none;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 800px; /* UPDATED: Increased width for better layout */
+        }
+
+        #quizSection h2,
+        #revisionModeSection h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            margin-top: 0;
+            color: #333;
+        }
+        
+        #revisionModeSection button {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 25px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background-color 0.2s ease-in-out;
+        }
+        #revisionModeSection button:hover {
+            opacity: 0.9;
+        }
+        #revisionModeSection button#generateInfoButton {
+            background-color: #007BFF;
+        }
+        #revisionModeSection button#expandInfoButton {
+            background-color: #28a745;
+        }
+        
+        .btn-back {
+            display: block;    
+            margin: 40px auto 20px auto;
+            padding: 12px 25px; 
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background-color 0.2s ease-in-out;
+            width: 200px;
+            max-width: 80%;
+            text-align: center;
+        }
+        .btn-back:hover {
+            background-color: #5a6268;
+        }
+
     </style>
 </head>
 <body>
-    <h1>QuizGenAI - Web App</h1>
-    <textarea id="sourceText" placeholder="Paste your source material here..."></textarea>
-    <input type="number" id="numQuestions" placeholder="Number of Questions" value="5" min="1">
-    <button id="generateButton">Generate Questions</button>
-    <pre id="resultsArea">Results will appear here...</pre>
-    <div id="quizContainer"></div> 
+    <div id="landingPage" style="display: block;">
+        <h1>Welcome to QuizGenAI</h1>
+        <button id="generateQuizButton">Generate Quiz</button>
+        <button id="revisionModeButton">Revision Mode</button>
+    </div>
+
+    <!-- UPDATED: Added padding and shadow via the #quizSection selector -->
+    <div id="quizSection">
+        <h2>Quiz Generation</h2>
+        <textarea id="sourceText" placeholder="Paste your source material here..."></textarea>
+        <input type="number" id="numQuestions" placeholder="Number of Questions" value="5" min="1">
+        <button id="generateButton">Generate Questions</button>
+        <pre id="resultsArea">Results will appear here...</pre>
+        <div id="quizContainer"></div> 
+        <button id="goBackButtonQuiz" class="btn-back">Back to Main</button>
+    </div>
+
+    <!-- UPDATED: Added padding and shadow via the #revisionModeSection selector -->
+    <div id="revisionModeSection">
+        <h2>Revision Mode</h2>
+        <textarea id="topicInput" placeholder="Enter a topic to learn about..." rows="2"></textarea>
+        <button id="generateInfoButton">Get Information</button>
+        <textarea id="infoDisplayArea" readonly placeholder="Information from the AI will appear here..."></textarea>
+        <div id="expandSection" style="display: none;">
+            <p style="text-align: center; margin-top: 30px;">Is there anything in this text you would like to expand on further?</p>
+            <!-- UPDATED: Converted from input to textarea for resizing capability -->
+            <textarea id="expandQueryInput" placeholder="Enter your query here..." rows="2"></textarea>
+            <button id="expandInfoButton">Expand</button>
+        </div>
+        <button id="goBackButtonRevision" class="btn-back">Back to Main</button>
+    </div>
 
     <script src="quizHandler.js" type="module"></script>
     <script src="main.js" type="module"></script>
