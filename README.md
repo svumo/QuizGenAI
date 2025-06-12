@@ -23,7 +23,7 @@ QuizGenAI: A Node.js and AI-driven web app for generating multiple-choice questi
 
 ## About The Project
 
-![app_example](Images\app_example.png)
+![app_example](Images/app_example.png)
 
 QuizGenAI allows users to input any textual information, and leveraging the power of AI (specifically OpenAI's GPT models), it parses the data to generate relevant multiple-choice questions. Users can then take these generated quizzes directly within the web application. This tool is designed to help students, educators, or anyone looking to quickly create assessments or learning checks from existing content.
 
@@ -113,7 +113,7 @@ To get a local copy up and running, follow these simple steps.
 
 If you have more screenshots, you can create a dedicated section or embed them throughout.
 
-*   **Results and Review:**  ![app_example](Images\results_example.png)
+*   **Results and Review:**  ![app_example](Images/results_example.png)
 
 ## Roadmap
 
