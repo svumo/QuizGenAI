@@ -2,8 +2,9 @@
 
 QuizGenAI: A Node.js and AI-driven web app for generating multiple-choice questions from user-provided data, featuring a dynamic quiz interface.
 
-<!-- SCREENSHOT_MAIN_INTERFACE: Add a compelling screenshot here of the main input interface of QuizGenAI -->
-<!-- Example: ![QuizGenAI Main Interface](link_to_your_screenshot.png) -->
+<p align="center">
+  <img src="Images/app_example.png" alt="QuizGenAI Main Interface - User inputs text and number of questions" style="max-height: 450px; max-width: 90%; border: 1px solid #ddd; padding: 5px;">
+</p>
 
 ## Table of Contents
 
@@ -14,29 +15,27 @@ QuizGenAI: A Node.js and AI-driven web app for generating multiple-choice questi
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage)
-- [Screenshots](#screenshots) <!-- Optional dedicated section -->
+- [Results](#results)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
-- [License](#license)
+- [Licence](#licence)
 - [Contact](#contact)
 - [Acknowledgements](#acknowledgements)
 
 ## About The Project
 
-![app_example](Images/app_example.png)
-
-QuizGenAI allows users to input any textual information, and leveraging the power of AI (specifically OpenAI's GPT models), it parses the data to generate relevant multiple-choice questions. Users can then take these generated quizzes directly within the web application. This tool is designed to help students, educators, or anyone looking to quickly create assessments or learning checks from existing content.
+QuizGenAI allows users to input any textual information. Leveraging the power of AI (specifically OpenAI's GPT models), it parses the data to generate relevant multiple-choice questions. Users can then take these generated quizzes directly within the web application. This tool is designed to help students, educators, or anyone looking to quickly create assessments or learning checks from existing content.
 
 ## Features
 
-*   **AI-Powered Question Generation:** Utilizes OpenAI's API to create multiple-choice questions.
-*   **Customizable Number of Questions:** Users can specify how many questions they want.
+*   **AI-Powered Question Generation:** Utilises OpenAI's API to create multiple-choice questions.
+*   **Customisable Number of Questions:** Users can specify how many questions they want.
 *   **Dynamic Quiz Interface:** Interactive quiz taking with immediate feedback.
 *   **Score and Percentage Display:** Shows quiz results upon completion.
 *   **Answer Review:** Users can review their answers against the correct ones and see explanations.
 *   **Content Moderation:** Input text is checked for appropriateness before processing.
-*   **Responsive Design:** (Assuming your CSS makes it somewhat responsive)
-*   **(Future/Optional) Two-Pass AI Generation:** For more detailed and targeted questions.
+*   **Responsive Design:** Basic responsiveness for various screen sizes.
+*   **(Future) Two-Pass AI Generation:** For more detailed and targeted questions.
 
 ## Built With
 
@@ -72,8 +71,9 @@ To get a local copy up and running, follow these simple steps.
 ### Installation
 
 1.  **Clone the repository:**
+    (Replace `YourUsername` with your actual GitHub username)
     ```bash
-    git clone https://github.com/YourUsername/QuizGenAI.git
+    git clone https://github.com/svumo/QuizGenAI.git
     cd QuizGenAI
     ```
 2.  **Install NPM packages:**
@@ -102,22 +102,22 @@ To get a local copy up and running, follow these simple steps.
 
 2.  **Using the App:**
     *   Paste the text material you want to generate questions from into the large textarea.
-    *   Specify the number of questions you'd like.
+    *   Specify the number of questions you would like.
     *   Click "Generate Questions."
     *   Wait for the AI to process and generate the quiz.
     *   Take the quiz!
 
-<!-- SCREENSHOT_RESULTS_PAGE: Add a screenshot here of the quiz results page, showing score, percentage, and perhaps the start of the answer review -->
-
 ## Results 
 
-If you have more screenshots, you can create a dedicated section or embed them throughout.
+This is the results and review page after you have completed the quiz. It shows your score, percentage, and a review of each question.
 
-*   **Results and Review:**  ![app_example](Images/results_example.png)
+<p align="center">
+  <img src="Images/results_example.png" alt="QuizGenAI Results Page - Shows score, percentage, and answer review" style="max-height: 450px; max-width: 90%; border: 1px solid #ddd; padding: 5px;">
+</p>
 
 ## Roadmap
 
-See the [open issues](https://github.com/YourUsername/QuizGenAI/issues) for a list of proposed features (and known issues). Future enhancements could include:
+See the [open issues](https://github.com/svumo/QuizGenAI/issues) for a list of proposed features (and known issues). Future enhancements could include:
 *   User accounts and saved quizzes.
 *   Different question types (e.g., true/false, fill-in-the-blanks).
 *   Exporting quizzes (PDF, text).
@@ -136,15 +136,15 @@ Contributions are what make the open-source community such an amazing place to l
 
 Please make sure to update tests as appropriate.
 
-## License
+## Licence
 
-Distributed under the MIT License. See `LICENSE.txt` for more information. (You'll need to add a `LICENSE.txt` file with the MIT License text if you choose this license).
+Distributed under the MIT Licence. See `LICENSE.txt` for more information. (You will need to add a `LICENSE.txt` file with the MIT Licence text if you choose this licence).
 
 ## Contact
 
 DanielPD - info@danielpd.com
 
-Project Link: [https://github.com/skvmo/QuizGenAI](https://github.com/skvmo/QuizGenAI)
+Project Link: [https://github.com/svumo/QuizGenAI](https://github.com/svumo/QuizGenAI)
 
 ## Acknowledgements
 
