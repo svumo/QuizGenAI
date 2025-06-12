@@ -2,8 +2,8 @@
 
 QuizGenAI: A Node.js and AI-driven web app for generating multiple-choice questions from user-provided data, featuring a dynamic quiz interface.
 
-<p align="center">
-  <img src="Images/app_example.png" alt="QuizGenAI Main Interface - User inputs text and number of questions" style="max-height: 450px; max-width: 90%; border: 1px solid #ddd; padding: 5px;">
+<p align="left">
+  <img src="Images/app_example.png" alt="QuizGenAI Results Page - Shows score, percentage, and answer review" width="400">
 </p>
 
 ## Table of Contents
@@ -111,8 +111,8 @@ To get a local copy up and running, follow these simple steps.
 
 This is the results and review page after you have completed the quiz. It shows your score, percentage, and a review of each question.
 
-<p align="center">
-  <img src="Images/results_example.png" alt="QuizGenAI Results Page - Shows score, percentage, and answer review" style="max-height: 450px; max-width: 90%; border: 1px solid #ddd; padding: 5px;">
+<p align="left">
+  <img src="Images/results_example.png" alt="QuizGenAI Results Page - Shows score, percentage, and answer review" width="400">
 </p>
 
 ## Roadmap
