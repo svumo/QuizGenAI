@@ -138,7 +138,7 @@ Please make sure to update tests as appropriate.
 
 ## Licence
 
-Distributed under the MIT Licence. See `LICENSE.txt` for more information. (You will need to add a `LICENSE.txt` file with the MIT Licence text if you choose this licence).
+Distributed under the MIT Licence. See `LICENSE.txt` for more information.
 
 ## Contact
 
