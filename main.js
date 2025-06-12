@@ -1,188 +1,100 @@
-export let currentQuestionIndex = 0;
-export let score = 0;
-let questionsData = [];
-
-export function startQuiz(data) {
-    console.log('[QuizHandler.js] startQuiz called.');
-    
-    if (!Array.isArray(data) || data.length === 0) { // More robust check
-        console.error('[QuizHandler.js] ERROR: Data received in startQuiz is not a valid array or is empty!', data);
-        const resultsArea = document.getElementById('resultsArea');
-        resultsArea.textContent = 'Error: Could not load questions properly.';
-        resultsArea.style.display = 'block';
-        document.getElementById('quizContainer').style.display = 'none';
-        return;
-    }
-
-    questionsData = data;
-    currentQuestionIndex = 0;
-    score = 0;
-
-    const resultsArea = document.getElementById('resultsArea');
-    resultsArea.innerHTML = ''; 
-    resultsArea.style.display = 'none'; 
-
-    const quizContainer = document.getElementById('quizContainer');
-    quizContainer.innerHTML = ''; 
-    quizContainer.style.display = 'block'; 
-
-    displayCurrentQuestion();
-}
-
-function displayCurrentQuestion() {
-    const questionContainer = document.getElementById('quizContainer');
-    if (!questionsData || questionsData.length === 0 || !questionsData[currentQuestionIndex]) {
-        console.error('[QuizHandler.js] ERROR: No question data available or invalid index for displayCurrentQuestion.');
-        questionContainer.innerHTML = '<p>Error: Could not display question.</p>';
-        return;
-    }
-    const question = questionsData[currentQuestionIndex];
-
-    if (!question || typeof question.question !== 'string' || !Array.isArray(question.options)) {
-        console.error('[QuizHandler.js] ERROR: Current question object is malformed:', question);
-        questionContainer.innerHTML = `<p>Error: Question data is malformed for question ${currentQuestionIndex + 1}.</p>`;
-        const nextButton = document.getElementById('nextQuestionButton');
-        if (nextButton) nextButton.style.display = 'block'; 
-        const submitButton = document.getElementById('submitAnswerButton');
-        if (submitButton) submitButton.style.display = 'none';
-        return;
-    }
-
-    questionContainer.innerHTML = `
-        <h2>${question.question}</h2>
-        <div id="optionsContainer">
-            ${question.options.map((option, index) => `
-                <div class="option-item">
-                    <input type="radio" name="option" id="option${index}" value="${option}" class="sr-only-radio">
-                    <label for="option${index}" class="option-label">${option}</label>
-                </div>
-            `).join('')}
-        </div>
-        <button id="submitAnswerButton">Submit Answer</button>
-        <button id="nextQuestionButton" style="display: none;">Next Question</button>
-        <div id="feedback"></div>
-    `;
-
-    document.getElementById('submitAnswerButton').addEventListener('click', checkAnswer);
-    document.getElementById('nextQuestionButton').addEventListener('click', loadNextQuestion);
-}
-
-function checkAnswer() {
-    const selectedOptionRadio = document.querySelector('input[name="option"]:checked');
-    const feedback = document.getElementById('feedback');
-
-    if (!selectedOptionRadio) {
-        feedback.textContent = 'Please select an option.';
-        return;
-    }
-
-    const selectedAnswer = selectedOptionRadio.value;
-    const question = questionsData[currentQuestionIndex];
-
-    if (!question || typeof question.correctAnswer !== 'string') {
-        console.error('[QuizHandler.js] ERROR: Malformed question or missing correctAnswer during checkAnswer:', question);
-        feedback.textContent = 'Error: Cannot check answer due to malformed question data.';
-        document.getElementById('submitAnswerButton').style.display = 'none';
-        document.getElementById('nextQuestionButton').style.display = 'block';
-        return;
-    }
-
-    if (selectedAnswer === question.correctAnswer) {
-        score++;
-        feedback.innerHTML = `<p style="color: green;">Correct!</p>`;
-    } else {
-        feedback.innerHTML = `<p style="color: red;">Incorrect. The correct answer was: ${question.correctAnswer}</p>`;
-    }
-
-    if (question.explanation && typeof question.explanation === 'string' && question.explanation.trim() !== '') {
-        feedback.innerHTML += `<p>${question.explanation}</p>`;
-    }
-
-    document.getElementById('submitAnswerButton').style.display = 'none';
-    document.getElementById('nextQuestionButton').style.display = 'block';
-
-    const optionsRadios = document.querySelectorAll('input[name="option"]');
-    optionsRadios.forEach(radio => radio.disabled = true);
-}
-
-function loadNextQuestion() {
-    currentQuestionIndex++;
-
-    if (currentQuestionIndex < questionsData.length) {
-        displayCurrentQuestion();
-    } else {
-        showResults();
-    }
-}
-
-function showResults() {
-    const questionContainer = document.getElementById('quizContainer');
-    questionContainer.innerHTML = `
-        <h2>Quiz Completed!</h2>
-        <p>You scored ${score} out of ${questionsData.length}.</p>
-        <button id="restartQuizButton">Restart Quiz</button>
-    `;
-
-    document.getElementById('restartQuizButton').addEventListener('click', () => {
-        document.getElementById('resultsArea').style.display = 'none';
-        document.getElementById('quizContainer').style.display = 'block';
-        startQuiz(questionsData); 
-    });
-}
+// main.js - CORRECTED AND COMPLETE
+import { startQuiz } from './quizHandler.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    const generateButton = document.getElementById('generateButton'); // Corrected ID
+    const generateButton = document.getElementById('generateButton');
     const resultsArea = document.getElementById('resultsArea');
+    const quizContainer = document.getElementById('quizContainer');
 
-    generateButton.addEventListener('click', async () => {
-        console.log('Button clicked');
+    if (generateButton) {
+        generateButton.addEventListener('click', async () => {
+            console.log('[Main.js] Generate Questions button CLICKED!');
 
-        const sourceText = document.getElementById('sourceText').value;
-        const numQuestions = parseInt(document.getElementById('numQuestions').value, 10);
+            const sourceTextElement = document.getElementById('sourceText');
+            const numQuestionsElement = document.getElementById('numQuestions');
 
-        console.log('Source Text:', sourceText);
-        console.log('Number of Questions:', numQuestions);
+            const sourceTextValue = sourceTextElement.value; // Use a different variable name to avoid confusion
+            const numQuestionsValue = parseInt(numQuestionsElement.value, 10);
 
-        if (!sourceText.trim()) {
-            console.log('Validation failed: Source text empty.');
-            resultsArea.textContent = 'Error: Source text cannot be empty.';
-            return;
-        }
+            console.log('[Main.js] Source Text from textarea:', sourceTextValue);
+            console.log('[Main.js] Number of Questions from input:', numQuestionsValue);
 
-        if (isNaN(numQuestions) || numQuestions <= 0) {
-            console.log('Validation failed: Invalid number of questions.');
-            resultsArea.textContent = 'Error: Number of questions must be a positive number.';
-            return;
-        }
-
-        console.log('Validation passed. Proceeding to API call.');
-        resultsArea.textContent = 'Generating...';
-
-        try {
-            const response = await fetch('/api/generate-questions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ sourceText, numQuestions }),
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            // --- Frontend Validation ---
+            if (!sourceTextValue.trim()) {
+                resultsArea.textContent = 'Error: Source text cannot be empty.';
+                resultsArea.style.display = 'block';
+                quizContainer.style.display = 'none';
+                console.log('[Main.js] Validation failed: Source text empty.');
+                return;
             }
 
-            const data = await response.json();
-            console.log('API Response:', data);
-
-            if (Array.isArray(data.questions)) {
-                resultsArea.textContent = '';
-                startQuiz(data.questions);
-            } else {
-                resultsArea.textContent = 'Error: Invalid response from server.';
+            if (isNaN(numQuestionsValue) || numQuestionsValue <= 0) {
+                resultsArea.textContent = 'Error: Number of questions must be a positive number.';
+                resultsArea.style.display = 'block';
+                quizContainer.style.display = 'none';
+                console.log('[Main.js] Validation failed: Invalid number of questions.');
+                return;
             }
-        } catch (error) {
-            console.error('Error during API call:', error);
-            resultsArea.textContent = 'Error: Could not generate questions.';
-        }
-    });
+            // --- End of Frontend Validation ---
+
+            console.log('[Main.js] Validation passed. Proceeding to API call.');
+            resultsArea.textContent = 'Generating...';
+            resultsArea.style.display = 'block';
+            quizContainer.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/generate-questions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: sourceTextValue, numQuestions: numQuestionsValue }) // Send correct values
+                });
+
+                // Clear "Generating..." or previous error message from resultsArea once response starts coming.
+                // We will update it again based on success or failure.
+                resultsArea.innerHTML = ''; 
+                resultsArea.style.display = 'none';
+
+                if (!response.ok) {
+                    let errorMsg = `HTTP error! Status: ${response.status}`;
+                    try {
+                        const errorData = await response.json();
+                        errorMsg = errorData.error || `Server error: ${response.statusText}`;
+                    } catch (e) {
+                        // If response is not JSON, use statusText or a generic message
+                        console.warn('[Main.js] Could not parse error response as JSON for !response.ok.', e);
+                        errorMsg = `Server error: ${response.statusText || 'Failed to get detailed error.'}`;
+                    }
+                    console.error('[Main.js] Error during API call:', errorMsg);
+                    resultsArea.textContent = `Error: ${errorMsg}`;
+                    resultsArea.style.display = 'block';
+                    quizContainer.style.display = 'none';
+                    return; 
+                }
+
+                const data = await response.json();
+                console.log('[Main.js] Data received from backend:', data);
+
+                if (data.questions && data.questions.length > 0) {
+                    sourceTextElement.value = ''; // Clear textarea
+                    numQuestionsElement.value = '5'; // Reset num questions to default
+
+                    quizContainer.style.display = 'block';
+                    startQuiz(data.questions);
+                } else {
+                    console.error('[Main.js] No questions received or questions array is empty.');
+                    resultsArea.textContent = 'Error: No questions were returned by the server. The AI might have had an issue or the source text was unsuitable.';
+                    resultsArea.style.display = 'block';
+                    quizContainer.style.display = 'none';
+                }
+
+            } catch (error) {
+                console.error('[Main.js] Network or other fetch error:', error);
+                resultsArea.textContent = 'Error: Failed to connect to the server or a network issue occurred. Please check your connection and ensure the server is running.';
+                resultsArea.style.display = 'block';
+                quizContainer.style.display = 'none';
+            }
+        });
+    } else {
+        console.error('[Main.js] CRITICAL: Generate button not found on the page!');
+    }
 });

@@ -135,8 +135,8 @@ app.post('/api/generate-questions', async (req, res) => {
     const { text, numQuestions = 5, model = 'gpt-3.5-turbo-0125' } = req.body;
     const apiKey = process.env.OPENAI_API_KEY;
 
-    if (!text || typeof text !== 'string' || text.trim() === '') {
-        return res.status(400).json({ error: 'Source text cannot be empty.' });
+    if (!text || typeof text !== 'string' || text.trim() === '' || /error|exception|stack trace/i.test(text)) {
+        return res.status(400).json({ error: 'Source text must be meaningful and cannot contain error logs or stack traces.' });
     }
     if (!Number.isInteger(numQuestions) || numQuestions <= 0) {
         return res.status(400).json({ error: 'Number of questions must be a positive integer.' });
